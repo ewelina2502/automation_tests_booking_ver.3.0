@@ -25,6 +25,8 @@ public class BookingsTest {
 
         List<Integer> bookingIds = json.getList(BOOKING_ID);
         assertThat(bookingIds.size()).isPositive();
+        System.out.println(bookingIds);
+
     }
 
     @Test
