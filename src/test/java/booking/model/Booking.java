@@ -18,8 +18,7 @@ public class Booking {
         bookingJson.put("totalprice", totalPrice);
         bookingJson.put("depositpaid", depositPaid);
         bookingJson.put("bookingdates", bookingDates);
-        bookingJson.put("additionalneeds", "basen");
-
+        bookingJson.put("additionalneeds", additionalNeeds);
         return bookingJson;
     }
 
@@ -28,7 +27,6 @@ public class Booking {
         JSONObject bookingDates = new JSONObject();
         bookingDates.put("checkin", checkin);
         bookingDates.put("checkout", checkout);
-
         return bookingDates;
     }
 }
