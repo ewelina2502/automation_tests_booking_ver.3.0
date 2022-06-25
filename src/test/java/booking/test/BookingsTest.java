@@ -3,8 +3,8 @@ package booking.test;
 import booking.model.Booking;
 import booking.request.GetRequest;
 import booking.request.PostRequest;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import booking.request.PutRequest;
+import booking.utils.BookingFakers;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
@@ -18,15 +18,10 @@ import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class BookingsTest {
-
-    public static String printFirstNameFaker() {
-        com.github.javafaker.Faker faker = new com.github.javafaker.Faker(new Locale("pl"));
-        return faker.name().firstName();
-    }
+public class BookingsTest extends BookingFakers {
 
     private static String BOOKING_ID = "bookingid";
-    private static String FIRST_NAME = printFirstNameFaker();
+    private static String FIRST_NAME = "firstname";
     private static String LAST_NAME = "lastname";
     private static String BOOKING = "booking.";
 
@@ -41,9 +36,9 @@ public class BookingsTest {
     }
 
     @Test
-    public void createBooking() throws JsonProcessingException {
+    public void createBookingWithAssertions()  {
         JSONObject bookingDatesJson = Booking.buildBookingDatesJson("2018-01-01", "2019-01-01");
-        JSONObject bookingJson = Booking.buildBookingJson(printFirstNameFaker(), "Demo",
+        JSONObject bookingJson = Booking.buildBookingJson("John", "Kovalsky",
                 new BigDecimal("1000"), true, bookingDatesJson, "sauna");
 
         JsonPath json = PostRequest.createBooking(bookingJson);
@@ -52,12 +47,38 @@ public class BookingsTest {
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         System.out.println(gson.toJson(JsonParser.parseString(String.valueOf(bookingJson))));
+        System.out.println(bookingJson);
 
-//        assertThat(json.getString(BOOKING));
-//        System.out.println(bookingJson);
-//        int idNo = json.getInt(BOOKING_ID);
-//        System.out.println("bookingid: " + idNo);
+        int idNo = json.getInt(BOOKING_ID);
+        System.out.println("bookingid: " + idNo);
+    }
+    @Test
+    public void createBooking() {
+        JSONObject bookingDatesJson = Booking.buildBookingDatesJson("2018-01-01", "2019-01-01");
+        JSONObject bookingJson = Booking.buildBookingJson(printFirstNameFaker(), "Demo",
+                new BigDecimal("1000"), true, bookingDatesJson, "sauna");
 
+        JsonPath json = PostRequest.createBooking(bookingJson);
+        int idNo = json.getInt(BOOKING_ID);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        System.out.println(gson.toJson(JsonParser.parseString(String.valueOf(bookingJson))));
+
+        System.out.println(bookingJson);
 
     }
+
+    @Test
+    public void createAndPutBooking() {
+        JSONObject bookingDatesJson = Booking.buildBookingDatesJson("2018-01-01", "2019-01-01");
+        JSONObject bookingJson = Booking.buildBookingJson(printFirstNameFaker(), "Demo",
+                new BigDecimal("1000"), true, bookingDatesJson, "sauna");
+
+        JsonPath json = PostRequest.createBooking(bookingJson);
+        System.out.println(json);
+        JsonPath putJson = PutRequest.putBooking(bookingJson);
+        System.out.println(putJson);
+    }
+
+
+
 }

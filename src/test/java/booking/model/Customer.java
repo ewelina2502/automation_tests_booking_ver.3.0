@@ -4,12 +4,11 @@ import org.json.JSONObject;
 
 import java.math.BigDecimal;
 
-public class Booking {
-
-    private Booking() {
+public class Customer {
+    private Customer() {
     }
 
-    public static JSONObject buildBookingJson(String firstName, String lastName,
+    public static JSONObject buildCustomerJson(String firstName, String lastName,
                                               BigDecimal totalPrice, boolean depositPaid,
                                               JSONObject bookingDates, String additionalNeeds) {
         JSONObject bookingJson = new JSONObject();
@@ -18,7 +17,8 @@ public class Booking {
         bookingJson.put("totalprice", totalPrice);
         bookingJson.put("depositpaid", depositPaid);
         bookingJson.put("bookingdates", bookingDates);
-        bookingJson.put("additionalneeds", additionalNeeds);
+        bookingJson.put("additionalneeds", "basen");
+
         return bookingJson;
     }
 
@@ -27,7 +27,9 @@ public class Booking {
         JSONObject bookingDates = new JSONObject();
         bookingDates.put("checkin", checkin);
         bookingDates.put("checkout", checkout);
-        return bookingDates;
 
+        return bookingDates;
     }
+
+
 }
