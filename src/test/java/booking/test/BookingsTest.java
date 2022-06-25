@@ -18,6 +18,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Locale;
 
+import static javax.swing.UIManager.getInt;
 import static org.assertj.core.api.Assertions.*;
 
 public class BookingsTest extends BookingFakers {
@@ -55,8 +56,8 @@ public class BookingsTest extends BookingFakers {
     }
     @Test
     public void createBooking() {
-        JSONObject bookingDatesJson = Booking.buildBookingDatesJson("2018-01-01", "2019-01-01");
-        JSONObject bookingJson = Booking.buildBookingJson(printFirstNameFaker(), "Demo",
+        JSONObject bookingDatesJson = Booking.buildBookingDatesJson(printDate(), printTomorrow());
+        JSONObject bookingJson = Booking.buildBookingJson(printFirstNameFaker(), printLastNameFaker(),
                 new BigDecimal("1000"), true, bookingDatesJson, "sauna");
 
         JsonPath json = PostRequest.createBooking(bookingJson);
@@ -70,18 +71,20 @@ public class BookingsTest extends BookingFakers {
     @Test
     public void createAndPutBooking() {
         JSONObject bookingPutDatesJson = BookingUpdate.buildBookingPutDatesJson("2018-01-01", "2019-01-01");
-        JSONObject bookingPutJson = BookingUpdate.buildBookingPutJson(printFirstNameFaker(), "Demo",
-                new BigDecimal("1000"), true, bookingPutDatesJson, "dinner");
+        JSONObject bookingPutJson = BookingUpdate.buildBookingPutJson(printFirstNameFaker(), "dinner",
+                bookingPutDatesJson, new BigDecimal("1000"), true, printLastNameFaker());
 
-        JsonPath putJson = PutRequest.putBooking(bookingPutJson);
-        System.out.println(putJson);
+        JsonPath json = PutRequest.putBooking(bookingPutJson);
+        System.out.println(bookingPutJson);
+//        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//        System.out.println(gson.toJson(JsonParser.parseString(String.valueOf(bookingPutJson))));
+
     }
 
     @Test
     public void createAndDeleteBooking(){
         DeleteRequest.deleteBooking();
         DeleteRequest.getBookingById();
-
         System.out.println("NOT FOUND: " + DeleteRequest.urlDelete);
 
     }

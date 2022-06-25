@@ -9,17 +9,18 @@ public class BookingUpdate {
     private BookingUpdate() {
     }
 
-    public static JSONObject buildBookingPutJson(String firstName, String lastName,
-                                              BigDecimal totalPrice, boolean depositPaid,
-                                              JSONObject bookingDates, String additionalNeeds) {
-        JSONObject bookingJson = new JSONObject();
-        bookingJson.put("firstname", firstName);
-        bookingJson.put("lastname", lastName);
-        bookingJson.put("totalprice", totalPrice);
-        bookingJson.put("depositpaid", depositPaid);
-        bookingJson.put("bookingdates", bookingDates);
-        bookingJson.put("additionalneeds", additionalNeeds);
-        return bookingJson;
+    public static JSONObject buildBookingPutJson(String firstName, String additionalNeeds,
+                                                 JSONObject bookingDates, BigDecimal totalPrice, boolean depositPaid,
+                                                 String lastName) {
+
+        JSONObject bookingUpdateJson = new JSONObject();
+        bookingUpdateJson.put("firstname", firstName);
+        bookingUpdateJson.put("lastname", lastName);
+        bookingUpdateJson.put("totalprice", totalPrice);
+        bookingUpdateJson.put("depositpaid", depositPaid);
+        bookingUpdateJson.put("bookingdates", bookingDates);
+        bookingUpdateJson.put("additionalneeds", additionalNeeds);
+        return bookingUpdateJson;
     }
 
     public static JSONObject buildBookingPutDatesJson(String checkin, String checkout) {

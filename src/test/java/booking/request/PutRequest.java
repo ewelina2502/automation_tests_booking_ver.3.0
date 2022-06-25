@@ -29,6 +29,8 @@ public class PutRequest {
                 new BigDecimal("1000"), true, bookingDatesJson, "sauna");
         JsonPath json = PostRequest.createBooking(bookingJson);
         int idNo = json.getInt(BOOKING_ID);
+        System.out.println("bookingId: " + idNo);
+        System.out.println(bookingJson);
         return idNo;
 
     }

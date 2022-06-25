@@ -21,6 +21,10 @@ public class BookingFakers {
         com.github.javafaker.Faker faker = new com.github.javafaker.Faker(new Locale("pl"));
         return faker.name().firstName();
     }
+    public static String printLastNameFaker() {
+        com.github.javafaker.Faker faker = new com.github.javafaker.Faker(new Locale("pl"));
+        return faker.name().lastName();
+    }
 
 
 }
