@@ -32,7 +32,6 @@ public class BookingsTest extends BookingFakers {
         List<Integer> bookingIds = json.getList(BOOKING_ID);
         assertThat(bookingIds.size()).isPositive();
         System.out.println(bookingIds);
-
     }
 
     @Test
@@ -62,20 +61,17 @@ public class BookingsTest extends BookingFakers {
         int idNo = json.getInt(BOOKING_ID);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         System.out.println(gson.toJson(JsonParser.parseString(String.valueOf(bookingJson))));
-
-        System.out.println(bookingJson);
+        System.out.println("bookingId: " + idNo);
 
     }
 
     @Test
     public void createAndPutBooking() {
         JSONObject bookingDatesJson = Booking.buildBookingDatesJson("2018-01-01", "2019-01-01");
-        JSONObject bookingJson = Booking.buildBookingJson(printFirstNameFaker(), "Demo",
-                new BigDecimal("1000"), true, bookingDatesJson, "sauna");
+        JSONObject bookingJsonPut = Booking.buildBookingJson(printFirstNameFaker(), "Demo",
+                new BigDecimal("1000"), true, bookingDatesJson, "swimmingpool");
 
-        JsonPath json = PostRequest.createBooking(bookingJson);
-        System.out.println(json);
-        JsonPath putJson = PutRequest.putBooking(bookingJson);
+        JsonPath putJson = PutRequest.putBooking(bookingJsonPut);
         System.out.println(putJson);
     }
 
