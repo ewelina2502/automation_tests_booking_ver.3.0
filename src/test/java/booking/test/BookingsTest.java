@@ -1,6 +1,8 @@
 package booking.test;
 
 import booking.model.Booking;
+import booking.model.BookingUpdate;
+import booking.request.DeleteRequest;
 import booking.request.GetRequest;
 import booking.request.PostRequest;
 import booking.request.PutRequest;
@@ -67,12 +69,21 @@ public class BookingsTest extends BookingFakers {
 
     @Test
     public void createAndPutBooking() {
-        JSONObject bookingDatesJson = Booking.buildBookingDatesJson("2018-01-01", "2019-01-01");
-        JSONObject bookingJsonPut = Booking.buildBookingJson(printFirstNameFaker(), "Demo",
-                new BigDecimal("1000"), true, bookingDatesJson, "swimmingpool");
+        JSONObject bookingPutDatesJson = BookingUpdate.buildBookingPutDatesJson("2018-01-01", "2019-01-01");
+        JSONObject bookingPutJson = BookingUpdate.buildBookingPutJson(printFirstNameFaker(), "Demo",
+                new BigDecimal("1000"), true, bookingPutDatesJson, "dinner");
 
-        JsonPath putJson = PutRequest.putBooking(bookingJsonPut);
+        JsonPath putJson = PutRequest.putBooking(bookingPutJson);
         System.out.println(putJson);
+    }
+
+    @Test
+    public void createAndDeleteBooking(){
+        DeleteRequest.deleteBooking();
+        DeleteRequest.getBookingById();
+
+        System.out.println("NOT FOUND: " + DeleteRequest.urlDelete);
+
     }
 
 
