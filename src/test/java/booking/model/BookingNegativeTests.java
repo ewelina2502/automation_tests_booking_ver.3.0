@@ -1,20 +1,18 @@
 package booking.model;
 
 import org.json.JSONObject;
-
 import java.math.BigDecimal;
 
-public class BookingUpdate {
+public class BookingNegativeTests {
 
-    private BookingUpdate() {
+    private BookingNegativeTests() {
     }
 
-    public static JSONObject buildBookingPutJson(String firstName, String additionalNeeds,
+    public static JSONObject buildBookingBadJson(String additionalNeeds,
                                                  JSONObject bookingDates, BigDecimal totalPrice, boolean depositPaid,
                                                  String lastName) {
 
         JSONObject bookingUpdateJson = new JSONObject();
-        bookingUpdateJson.put("firstname", firstName);
         bookingUpdateJson.put("lastname", lastName);
         bookingUpdateJson.put("totalprice", totalPrice);
         bookingUpdateJson.put("depositpaid", depositPaid);
@@ -23,7 +21,7 @@ public class BookingUpdate {
         return bookingUpdateJson;
     }
 
-    public static JSONObject buildBookingPutDatesJson(String checkin, String checkout) {
+    public static JSONObject buildBookingDatesJson(String checkin, String checkout) {
 
         JSONObject bookingDates = new JSONObject();
         bookingDates.put("checkin", checkin);

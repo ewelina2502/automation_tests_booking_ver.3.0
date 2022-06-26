@@ -1,22 +1,23 @@
 package booking.test;
 
 import booking.model.Booking;
-import booking.model.BookingUpdate;
+import booking.model.BookingNegativeTests;
 import booking.request.DeleteRequest;
 import booking.request.GetRequest;
 import booking.request.PostRequest;
 import booking.request.PutRequest;
 import booking.utils.BookingFakers;
+import booking.utils.BookingUrl;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
 import io.restassured.path.json.JsonPath;
+import org.codehaus.groovy.control.messages.Message;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Locale;
 
 import static javax.swing.UIManager.getInt;
 import static org.assertj.core.api.Assertions.*;
@@ -71,12 +72,12 @@ public class BookingsTest extends BookingFakers {
 
     @Test
     public void createAndPutBooking() {
-        JSONObject bookingPutDatesJson = BookingUpdate.buildBookingPutDatesJson("2018-01-01", "2019-01-01");
-        JSONObject bookingPutJson = BookingUpdate.buildBookingPutJson(printFirstNameFaker(), "dinner",
-                bookingPutDatesJson, new BigDecimal("1000"), true, printLastNameFaker());
+        JSONObject bookingDatesJson = Booking.buildBookingDatesJson(printDate(), printTomorrow());
+        JSONObject bookingJson = Booking.buildBookingJson(printFirstNameFaker(), printLastNameFaker(),
+                new BigDecimal(BookingFakers.printGenerator()), true, bookingDatesJson, "Extra_supper");
 
-        JsonPath json = PutRequest.putBooking(bookingPutJson);
-        System.out.println(bookingPutJson);
+        JsonPath json = PutRequest.putBooking(bookingJson);
+        System.out.println(bookingJson);
 
     }
 
@@ -88,14 +89,12 @@ public class BookingsTest extends BookingFakers {
     }
     @Test
     public void createBookingWithBadJson() {
-        JSONObject bookingDatesJson = Booking.buildBookingDatesJson("printDate()", printTomorrow());
-        JSONObject bookingJson = Booking.buildBookingJson(printFirstNameFaker(), printLastNameFaker(),
-                new BigDecimal(BookingFakers.printGenerator()), true, bookingDatesJson, "Extra_supper");
+        JSONObject bookingDatesJson = BookingNegativeTests.buildBookingDatesJson(printDate(), printTomorrow());
+        JSONObject bookingJson = BookingNegativeTests.buildBookingBadJson(printFirstNameFaker(),  bookingDatesJson,
+                new BigDecimal(BookingFakers.printGenerator()), true, printLastNameFaker());
 
-        JsonPath json = PostRequest.createBooking(bookingJson);
-
-
-
+        JsonPath json = PostRequest.createBookingWithBadJson(bookingJson);
+        System.out.println("Status code: " + BookingUrl.STATUS_CODE);
     }
 
 }
