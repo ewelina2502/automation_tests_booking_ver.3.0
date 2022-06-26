@@ -28,6 +28,7 @@ public class BookingsTest extends BookingFakers {
     private static String LAST_NAME = "lastname";
     private static String BOOKING = "booking.";
 
+
     @Test
     public void readAllBookings() {
         JsonPath json = GetRequest.readAllBookings();
@@ -39,9 +40,9 @@ public class BookingsTest extends BookingFakers {
 
     @Test
     public void createBookingWithAssertions()  {
-        JSONObject bookingDatesJson = Booking.buildBookingDatesJson("2018-01-01", "2019-01-01");
+        JSONObject bookingDatesJson = Booking.buildBookingDatesJson("2030-01-01", "2031-02-02");
         JSONObject bookingJson = Booking.buildBookingJson("John", "Kovalsky",
-                new BigDecimal("1000"), true, bookingDatesJson, "sauna");
+                new BigDecimal("1000"), true, bookingDatesJson, "Extra dinner");
 
         JsonPath json = PostRequest.createBooking(bookingJson);
         assertThat(json.getString(BOOKING + FIRST_NAME)).isEqualTo(bookingJson.getString(FIRST_NAME));
@@ -58,7 +59,7 @@ public class BookingsTest extends BookingFakers {
     public void createBooking() {
         JSONObject bookingDatesJson = Booking.buildBookingDatesJson(printDate(), printTomorrow());
         JSONObject bookingJson = Booking.buildBookingJson(printFirstNameFaker(), printLastNameFaker(),
-                new BigDecimal("1000"), true, bookingDatesJson, "sauna");
+                new BigDecimal(BookingFakers.printGenerator()), true, bookingDatesJson, "Extra_supper");
 
         JsonPath json = PostRequest.createBooking(bookingJson);
         int idNo = json.getInt(BOOKING_ID);
@@ -76,8 +77,6 @@ public class BookingsTest extends BookingFakers {
 
         JsonPath json = PutRequest.putBooking(bookingPutJson);
         System.out.println(bookingPutJson);
-//        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-//        System.out.println(gson.toJson(JsonParser.parseString(String.valueOf(bookingPutJson))));
 
     }
 
@@ -86,9 +85,17 @@ public class BookingsTest extends BookingFakers {
         DeleteRequest.deleteBooking();
         DeleteRequest.getBookingById();
         System.out.println("NOT FOUND: " + DeleteRequest.urlDelete);
+    }
+    @Test
+    public void createBookingWithBadJson() {
+        JSONObject bookingDatesJson = Booking.buildBookingDatesJson("printDate()", printTomorrow());
+        JSONObject bookingJson = Booking.buildBookingJson(printFirstNameFaker(), printLastNameFaker(),
+                new BigDecimal(BookingFakers.printGenerator()), true, bookingDatesJson, "Extra_supper");
+
+        JsonPath json = PostRequest.createBooking(bookingJson);
+
+
 
     }
-
-
 
 }

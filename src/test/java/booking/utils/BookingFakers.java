@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Random;
 
 public class BookingFakers {
     public static String printDate() {
@@ -24,6 +25,11 @@ public class BookingFakers {
     public static String printLastNameFaker() {
         com.github.javafaker.Faker faker = new com.github.javafaker.Faker(new Locale("pl"));
         return faker.name().lastName();
+    }
+
+    public static int printGenerator() {
+        Random randomGenerator = new Random();
+        return randomGenerator.nextInt(9999);
     }
 
 

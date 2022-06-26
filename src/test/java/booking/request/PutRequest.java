@@ -1,6 +1,7 @@
 package booking.request;
 
 import booking.model.Booking;
+import booking.utils.BookingFakers;
 import booking.utils.BookingUrl;
 import io.restassured.path.json.JsonPath;
 import org.json.JSONObject;
@@ -24,9 +25,9 @@ public class PutRequest {
 
 
     public static int createToPutBooking() {
-        JSONObject bookingDatesJson = Booking.buildBookingDatesJson("2018-01-01", "2019-01-01");
-        JSONObject bookingJson = Booking.buildBookingJson("Krystyna", "Demo",
-                new BigDecimal("1000"), true, bookingDatesJson, "sauna");
+        JSONObject bookingDatesJson = Booking.buildBookingDatesJson(BookingFakers.printDate(), BookingFakers.printTomorrow());
+        JSONObject bookingJson = Booking.buildBookingJson(BookingFakers.printFirstNameFaker(), BookingFakers.printLastNameFaker(),
+                new BigDecimal("1000"), true, bookingDatesJson, "Update_dinner");
         JsonPath json = PostRequest.createBooking(bookingJson);
         int idNo = json.getInt(BOOKING_ID);
         System.out.println("bookingId: " + idNo);

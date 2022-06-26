@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
+import static org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR;
 import static org.apache.http.HttpStatus.SC_OK;
 
 public class PostRequest {
@@ -27,6 +28,20 @@ public class PostRequest {
                 .extract()
                 .response()
                 .jsonPath();
-
     }
+
+    public static JsonPath createBookingWithBadJson(JSONObject payload) {
+
+        return given()
+                .contentType(JSON)
+                .body(payload.toString())
+                .when()
+                .post(BookingUrl.BASE_URL + BookingUrl.BOOKING)
+                .then()
+                .statusCode(SC_INTERNAL_SERVER_ERROR)
+                .extract()
+                .response()
+                .jsonPath();
+    }
+
 }

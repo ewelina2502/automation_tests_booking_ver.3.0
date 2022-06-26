@@ -1,12 +1,14 @@
 package booking.request;
 
 import booking.model.Booking;
+import booking.utils.BookingFakers;
 import booking.utils.BookingUrl;
 import io.restassured.path.json.JsonPath;
 import org.json.JSONObject;
 
 import java.math.BigDecimal;
 
+import static io.restassured.RestAssured.enableLoggingOfRequestAndResponseIfValidationFails;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.apache.http.HttpStatus.*;
@@ -29,9 +31,9 @@ public class DeleteRequest {
         public static String urlDelete = BookingUrl.BASE_URL + BookingUrl.BOOKING + "/" + createToPutBooking();
 
         public static int createToPutBooking() {
-            JSONObject bookingDatesJson = Booking.buildBookingDatesJson("2018-01-01", "2019-01-01");
+            JSONObject bookingDatesJson = Booking.buildBookingDatesJson("2029-02-02", "2030-03-03");
             JSONObject bookingJson = Booking.buildBookingJson("Krystyna", "Demo",
-                    new BigDecimal("1000"), true, bookingDatesJson, "sauna");
+                    new BigDecimal("1000"), true, bookingDatesJson, "Super_supper");
             JsonPath json = PostRequest.createBooking(bookingJson);
             System.out.println(bookingJson);
             int idNo = json.getInt(BOOKING_ID);
@@ -67,8 +69,8 @@ public class DeleteRequest {
                 .extract()
                 .response()
                 .jsonPath();
-    }
 
     }
+}
 
 
