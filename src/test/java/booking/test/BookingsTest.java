@@ -65,7 +65,6 @@ public class BookingsTest extends BookingFakers {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         System.out.println(gson.toJson(JsonParser.parseString(String.valueOf(bookingJson))));
         System.out.println("bookingId: " + idNo);
-
     }
 
     @Test
@@ -86,9 +85,16 @@ public class BookingsTest extends BookingFakers {
         DeleteRequest.deleteBooking();
         DeleteRequest.getBookingById();
         System.out.println("NOT FOUND: " + DeleteRequest.urlDelete);
-
     }
+    @Test
+    public void createBooking500() {
+        JSONObject bookingDatesJson = Booking.buildBookingDatesJson("$#@$@#", " ");
+        JSONObject bookingJsonBad = Booking.buildBookingJson(printFirstNameFaker(), printLastNameFaker(),
+                new BigDecimal("1000"), true, bookingDatesJson, "sauna");
 
-
-
+        JsonPath json = PostRequest.createBooking500(bookingJsonBad);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        System.out.println(gson.toJson(JsonParser.parseString(String.valueOf(bookingJsonBad))));
+        System.out.println("status code: 500");
+    }
 }
