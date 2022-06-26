@@ -20,6 +20,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static javax.swing.UIManager.getInt;
+import static org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR;
+import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.assertj.core.api.Assertions.*;
 
 public class BookingsTest extends BookingFakers {
@@ -28,7 +30,6 @@ public class BookingsTest extends BookingFakers {
     private static String FIRST_NAME = "firstname";
     private static String LAST_NAME = "lastname";
     private static String BOOKING = "booking.";
-
 
     @Test
     public void readAllBookings() {
@@ -67,7 +68,6 @@ public class BookingsTest extends BookingFakers {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         System.out.println(gson.toJson(JsonParser.parseString(String.valueOf(bookingJson))));
         System.out.println("bookingId: " + idNo);
-
     }
 
     @Test
@@ -78,14 +78,14 @@ public class BookingsTest extends BookingFakers {
 
         JsonPath json = PutRequest.putBooking(bookingJson);
         System.out.println(bookingJson);
-
     }
 
     @Test
     public void createAndDeleteBooking(){
         DeleteRequest.deleteBooking();
         DeleteRequest.getBookingById();
-        System.out.println("NOT FOUND: " + DeleteRequest.urlDelete);
+        System.out.println("Status code: " + SC_NOT_FOUND);
+
     }
     @Test
     public void createBookingWithBadJson() {
@@ -94,7 +94,7 @@ public class BookingsTest extends BookingFakers {
                 new BigDecimal(BookingFakers.printGenerator()), true, printLastNameFaker());
 
         JsonPath json = PostRequest.createBookingWithBadJson(bookingJson);
-        System.out.println("Status code: " + BookingUrl.STATUS_CODE);
+        System.out.println("Status code: " + SC_INTERNAL_SERVER_ERROR);
     }
 
 }
